@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<title>Tailwind + Alpine</title>
+	</head>
+	<body class="bg-gray-100">
+		<div class="text-white bg-indigo-500">
+			<div class="px-2 py-6 mx-auto lg:container">
+				<h1 class="text-lg">Tailwind + Alpine</h1>
+				<p class="text-sm">
+					Random stuff built with Tailwind.css and Alpine.js. By Zack
+					Webster.
+				</p>
+			</div>
+		</div>
+		<div class="px-2 py-6 mx-auto lg:container">
+			<div x-data="data()" class="grid gap-4 md:grid-cols-4">
+				<template x-for="(project, index) in projects" :key="index">
+					<a
+						x-bind:href="project.url"
+						class="overflow-hidden bg-white rounded shadow"
+					>
+						<div class="p-3">
+							<h3
+								class="font-semibold"
+								x-text="project.name"
+							></h3>
+							<p
+								class="text-sm text-gray-600"
+								x-text="project.description"
+							></p>
+
+							<span
+								class="text-sm text-gray-400"
+								x-text="project.tags"
+							></span>
+						</div>
+					</a>
+				</template>
+			</div>
+		</div>
+		<script>
+			function data() {
+				return {
+					projects: [
+						{
+							url: "template.html",
+							name: "Base Template",
+							description:
+								"Starter file for Tailwind + Alpine projects.",
+							tags: ["v2"],
+						},
+						{
+							url: "dropdown.html",
+							name: "Dropdown",
+							description: "A simple dropdown implementation.",
+							tags: ["v2"],
+						},
+						{
+							url: "modal.html",
+							image: "images/modal.jpg",
+							name: "Modal",
+							description: "A simple modal implementation.",
+							tags: ["v2"],
+						},
+						{
+							url: "multi-modal.html",
+							name: "Multi-Modal",
+							description: "A simple multi-modal implementation.",
+							tags: ["v2"],
+						},
+						{
+							url: "sidebar.html",
+							name: "Sidebar - Non-responsive",
+							description:
+								"A non-responsive sidebar implementation.",
+							tags: ["v2"],
+						},
+						{
+							url: "sidebar-2.html",
+							name: "Sidebar",
+							description: "A responsive sidebar implementation.",
+							tags: ["v2, responsive"],
+						},
+						{
+							url: "slack",
+							name: "Slack",
+							description: "A slack clone.",
+							tags: ["v2"],
+						},
+						{
+							url: "crypto-card",
+							name: "Crypto Card",
+							description: "A crypto card.",
+							tags: ["v2"],
+						},
+						{
+							url: "chart",
+							name: "Chart",
+							description: "Apex Chart integration.",
+							tags: ["v2"],
+						},
+						{
+							url: "crypto-chart.html",
+							name: "Crypto Chart",
+							description: "Lightweight Charts integration.",
+							tags: ["v2"],
+						},
+						{
+							url: "toast.html",
+							name: "Toast Notifications",
+							description:
+								"A simple toast notification implementation.",
+							tags: ["v2"],
+						},
+						{
+							url: "radio-tabs.html",
+							name: "Radio Tabs",
+							description: "Custom radio tabs.",
+							tags: ["v3"],
+						},
+						{
+							url: "toast2.html",
+							name: "Toast Notifications",
+							description:
+								"A simple toast notification implementation.",
+							tags: ["v3"],
+						},
+					],
+				}
+			}
+		</script>
+		<script
+			src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+			defer
+		></script>
+	</body>
+</html>
