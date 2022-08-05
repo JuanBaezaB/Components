@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/f11abf7794.js" crossorigin="anonymous"></script>
+    
+    <title>Document</title>
+
+
+    <style>
+    
+        body{
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#000;
+        }
+    
+        #checkbox{
+            display:none;
+        }
+    
+        .toggler{
+            display:block;
+            width:60px;
+            height:30px;
+            border:2px solid #4672fe;
+            border-radius:30px;
+            position:relative;
+            cursor:pointer;
+        }
+        .ball, .sun, .moon{
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            color:#fff;
+            font-size:15px;
+        }
+    
+        .ball{
+            display:inline-block;
+            width:25px;
+            height:25px;
+            background-color:#4672fe;
+            border-radius:50%;
+            left:2px;
+            z-index:10;
+            transform:transform .5s ease-in-out;
+            transition:all 0.5s;
+        }
+    
+        .sun{
+            left:5px;
+        }
+    
+        .moon{
+            right:5px;
+        }
+    
+        #checkbox:checked + .ball{
+            transform:translate(30px,-50%);
+        }
+    </style>
+</head>
+
+
+<body classname="snippet-body">
+    <div class="container">
+        <label for="checkbox" class="toggler">
+            <input type="checkbox" id="checkbox">
+            <span class="ball"></span>
+            <i class="fa fa-sun sun"></i>
+            <i class="fa fa-moon moon"></i>
+        </label>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
