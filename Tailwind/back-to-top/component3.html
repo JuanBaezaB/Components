@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/f11abf7794.js" crossorigin="anonymous"></script>
+    <style>
+        .back-to-top {
+            bottom: 2rem;
+            cursor: pointer;
+            opacity: 0;
+            position: fixed;
+            right: 2rem;
+            -webkit-transition: all 0.6s ease;
+            transition: all 0.6s ease;
+            visibility: hidden;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover{
+            transform: scale(1.1);
+            border-color: rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="relative">
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-green-400">
+            <h2 class="text-4xl">The First Title</h2>
+            <p>Scroll Down</p>
+        </div>
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-indigo-600 text-white">
+            <h2 class="text-4xl">The Second Title</h2>
+            <p>Scroll Down</p>
+        </div>
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-purple-600 text-white">
+            <h2 class="text-4xl">The Third Title</h2>
+            <p>Scroll Down</p>
+        </div>
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-neutral-800 text-white">
+            <h2 class="text-4xl">The Fourth Title</h2>
+        </div>
+    </div>
+    
+    <svg height="50" id="back-to-top"  viewBox="0 0 963 963" width="50" class="back-to-top" ><path fill="#FEC100" d="M481.5 963C747.4 963 963 747.4 963 481.5S747.4 0 481.5 0 0 215.6 0 481.5 215.6 963 481.5 963zm61.8-691.6l233.2 213.401c19.4 17.799 29.2 42.1 29.2 66.398 0 21.701-7.8 43.5-23.601 60.701-33.599 36.7-90.499 39.2-127.199 5.6L482.6 459.8 305.3 622.4c-36.6 33.6-93.6 31.1-127.2-5.5s-31.1-93.6 5.5-127.201L421.7 271.4c34.5-31.5 87.2-31.5 121.6 0z"></path></svg>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <script>
+        // Back to top button
+        $(document).ready(function(){
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) {
+                    $('.back-to-top').fadeIn('slow');
+                } else {
+                    $('.back-to-top').fadeOut('slow');
+                }
+            });
+            $('.back-to-top').click(function(){
+                $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
+                return false;
+            });
+        });
+    
+    </script>
+</body>
+</html>
+
