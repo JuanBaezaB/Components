@@ -1,0 +1,654 @@
+<html lang="en" class="hydrated"><head>
+
+    <meta charset="UTF-8"><style data-styles="">ion-icon{visibility:hidden}.hydrated{visibility:inherit}</style>
+    
+  <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+  
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  
+  <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+  
+  
+    <title>CodePen - sidebar menu tailwind responsive alpinejs</title>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.4/tailwind.min.css">
+    
+  <style>
+  .dropdownside {
+    display: grid;
+    grid-template-columns: max-content max-content; 
+  }
+  .collapse {
+    grid-template-columns : 20px max-content 1fr;
+  }
+  
+  .chain::before {
+    content: '';
+    position: absolute;
+    width:20px;
+    height: 20px;
+    top: -7px;
+    right: 16px;
+    background: rgba(243, 244, 246, 1);
+    transform: rotate(45deg);
+    z-index: 100;
+  }
+  </style>
+  
+    <script>
+    window.console = window.console || function(t) {};
+  </script>
+  
+    
+    
+    <script>
+    if (document.location.search.match(/type=embed/gi)) {
+      window.parent.postMessage("resize", "*");
+    }
+  </script>
+  
+  
+  <body translate="no">
+    <div class="relative min-h-screen flex font-sans" x-data="{ toggle: '0', open : false, rotate: '0' }">
+  
+    <!--  start sidebar  -->
+    <div class="sidebar transition duration-75 ease-in-out fixed bg-blue-900 text-white w-14 py-2 px-1.5" :class="[toggle === '1' ? 'w-52' : 'w-14']" x-transition:enter="transition ease-in-out duration-300" x-transition:enter-start="transition ease-in-out duration-500" x-transition:enter-end="transition ease-in-out duration-300">
+  
+      <nav class="flex flex-col justify-between overflow-hidden h-screen transition duration-200">
+        <div>
+          <!--  nav brand-->
+          <div class="grid grid-flow-col auto-cols-max items-center gap-3 p-3 rounded mb-2 transition duration-200">
+            <ion-icon name="hardware-chip-outline" class="text-xl md hydrated" role="img" aria-label="hardware chip outline"></ion-icon>
+            <span class="text-medium font-semibold">CodeStrom</span>
+          </div>
+          <!--  end navbrand-->
+          <a href="#" class="grid grid-flow-col auto-cols-max items-center gap-3 p-3 rounded mb-2 transition duration-200 hover:bg-blue-700 hover:text-white cursor-pointer">
+            <ion-icon name="home-outline" class="text-xl md hydrated" role="img" aria-label="home outline"></ion-icon>
+            <span class="text-base">Dashboard</span>
+          </a>
+          <a href="#" class="grid grid-flow-col auto-cols-max items-center gap-3 p-3 rounded mb-2 transition duration-200 hover:bg-blue-700 hover:text-white cursor-pointer">
+            <ion-icon name="chatbubbles-outline" class="text-xl md hydrated" role="img" aria-label="chatbubbles outline"></ion-icon>
+            <span class="text-base">Message</span>
+          </a>
+          <div class="dropdownside collapse items-center gap-3 p-3 rounded mb-2 transition duration-200 hover:bg-blue-700 hover:text-white cursor-pointer" @click="open = ! open; rotate =  '0' ? rotate = '1' : rotate = '0' ">
+            <ion-icon name="folder-outline" class="text-xl md hydrated" role="img" aria-label="folder outline"></ion-icon>
+            <span class="text-base">Projects</span>
+            <ion-icon name="chevron-down-outline" class="justify-self-end transform rotate-0 md hydrated" :class="[rotate === '1' ? 'transform rotate-180' : 'transform rotate-0']" x-transition="" role="img" aria-label="chevron down outline"></ion-icon>
+            <ul class="px-6" x-show="open" @click.outside="open = false; rotate === '0' ? rotate = '1' : rotate = '0'" x-transition="" style="display: none;">
+              <a href="" class="text-sm py-2 pl-2 pr-24 rounded hover:underline">Done</a>
+              <a href="" class="text-sm py-2 pl-2 pr-24 rounded hover:underline">Do</a>
+              <a href="" class="text-sm py-2 pl-2 pr-24 rounded hover:underline">Doing</a>
+            </ul>
+          </div>
+        </div>
+        <!--    untuk logout    -->
+        <a href="" class="grid grid-flow-col auto-cols-max items-center gap-3 p-3 rounded mb-4 transition duration-200 hover:bg-blue-700 hover:text-white">
+          <ion-icon name="log-out-outline" class="text-xl md hydrated" role="img" aria-label="log out outline"></ion-icon>
+          <span class="text-base">logout</span>
+        </a>
+      </nav>
+  
+    </div>
+    <!--  end sidebar  -->
+  
+    <!--  main  -->
+    <div class="flex-1 relative ml-14 transition duration-200 ease-in-out bg-gray-200 w-full overflow-x-hidden" :class="[toggle === '1' ? 'ml-52' : 'ml-14']">
+  
+      <!--  start Header    -->
+      <header class="relative bg-gray-100 py-2 shadow px-4 flex justify-between items-center text-blue-700">
+        <div class="bg-blue-100 rounded cursor-pointer" @click="toggle === '0' ? toggle = '1' : toggle = '0'">
+          <ion-icon name="reorder-four-outline" class="text-xl flex items-center p-2 md hydrated" role="img" aria-label="reorder four outline"></ion-icon>
+        </div>
+        <div class="flex items-center flex-row">
+  
+          <div class="relative mr-4" x-data="{sideright : 0}">
+  
+            <div class="bg-green-100 rounded cursor-pointer" @click="sideright === '0' ? sideright = '1' : sideright = '0'" @click.outside="sideright = '0' ">
+              <ion-icon name="albums-outline" class="text-xl font-bold text-green-600 flex items-center p-2 md hydrated" role="img" aria-label="albums outline"></ion-icon>
+            </div>
+  
+            <div class="sidebar-right absolute overflow-hidden left-64 top-12 z-50 bg-gray-100 flex flex-col space-y-3 py-4 px-4 w-64 h-screen transition duration-200 ease-in-out text-gray-400" :class="[sideright === '1' ? 'left-auto' : 'left-64']" x-transition="">
+              <div class="text-medium font-semibold">Dahboard</div>
+              <div class="bg-gray-200 rounded w-full h-32 overflow-hidden">
+                <img src="https://i.ibb.co/ZN2FQBd/undraw-Meditation-re-gll0.png" alt="" class="w-full h-32 object-cover object-center">
+              </div>
+              <div class="bg-blue-200 rounded w-full p-2">
+                <h4 class="text-xs font-semibold text-blue-600 mb-2">Todo Progress</h4>
+  
+                <div class="relative text-pink-600 text-sm mb-2">
+                  <h5 class="text-xs">Build New Teams</h5>
+                  <div class="w-full bg-gray-100 rounded-full h-2">
+                    <div class="bg-pink-600 rounded-full text-xs leading-none h-2 text-center text-white" style="width: 75%">75%</div>
+                  </div>
+                </div>
+                <div class="relative text-green-600 text-sm mb-2">
+                  <h5 class="text-xs">Make Website Ecommerce</h5>
+                  <div class="w-full bg-gray-100 rounded-full h-2">
+                    <div class="bg-green-600 rounded-full text-xs leading-none h-2 text-center text-white" style="width: 55%">55%</div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+  
+          </div>
+  
+          <div class="relative" x-data="{opsetting : false}">
+  
+            <div class="bg-pink-100 rounded cursor-pointer">
+              <ion-icon name="notifications-outline" class="text-xl font-bold text-pink-600 flex items-center p-2 md hydrated" @click="opsetting =! opsetting" role="img" aria-label="notifications outline"></ion-icon>
+            </div>
+  
+            <div class="absolute shadow-md rounded-lg flex top-14 right-0 z-50 p-4 w-64 bg-gray-100 text-white shadow-lg text-sm" x-show="opsetting" @click.outside="opsetting = false" x-transition="" style="display: none;">
+              <div class="pr-2">
+                <svg class="fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                  <path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-3.54-4.46a1 1 0 0 1 1.42-1.42 3 3 0 0 0 4.24 0 1 1 0 0 1 1.42 1.42 5 5 0 0 1-7.08 0zM9 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="text-sm pb-2 text-gray-900">
+                  Notification Title
+                  <span class="float-right">
+                    <svg class="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                      <path class="heroicon-ui" d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="text-sm text-gray-600  tracking-tight ">
+                  I will never close automatically. This is a purposely very very long
+                  description that has many many characters and words.
+                </div>
+              </div>
+            </div>
+  
+          </div>
+  
+          <div class="relative" x-data="{open : false}">
+            <div class="ml-4 flex">
+              <div class="relative w-10 h-10 cursor-pointer" @click="open =! open">
+                <img class="rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/women/81.jpg" alt="user image">
+              </div>
+              <div class="text-gray-600 ml-4 tracking-normal">
+                <h4 class="text-sm font-bold">Dom Toreto</h4>
+                <h4 class="text-xs opacity-50">Web Designer</h4>
+              </div>
+            </div>
+            <div class="absolute chain shadow-md rounded top-16 right-20 z-50 p-4 w-44 bg-gray-100 text-gray-500 text-sm" x-show="open" @click.outside="open = false" x-transition="" style="display: none;">
+              <ul class="">
+                <li class="py-2 hover:text-gray-700"><a href="#">Profile</a></li>
+                <li class="py-2 hover:text-gray-700"><a href="#">Calendar</a></li>
+                <li class="py-2 hover:text-gray-700"><a href="#">Setting</a></li>
+              </ul>
+            </div>
+          </div>
+  
+        </div>
+      </header>
+      <!--  end Header    -->
+  
+      <!--  start main content    -->
+      <div class="flex justify-between md:flex-row flex-col w-full p-2">
+        <div class="bg-white rounded shadow md:w-3/4 w-full p-4">
+          <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div class="p-4 bg-green-100 rounded shadow-lg flex flex-col items-center text-green-600">
+              <ion-icon name="desktop-outline" class="text-4xl md hydrated" role="img" aria-label="desktop outline"></ion-icon>
+              <h3 class="text-base font-semibold">Monitoring</h3>
+              <p class="text-xs mt-2 text-green-400 text-center">Controll your projects from here, and keep schedules</p>
+            </div>
+            <div class="p-4 bg-pink-100 rounded shadow-lg flex flex-col items-center text-pink-600">
+              <ion-icon name="gift-outline" class="text-4xl md hydrated" role="img" aria-label="gift outline"></ion-icon>
+              <h3 class="text-base font-semibold">Suprise</h3>
+              <p class="text-xs mt-2 text-pink-400 text-center">Controll your projects from here, and keep schedules</p>
+            </div>
+            <div class="p-4 bg-indigo-100 rounded shadow-lg flex flex-col items-center text-indigo-600">
+              <ion-icon name="cube-outline" class="text-4xl md hydrated" role="img" aria-label="cube outline"></ion-icon>
+              <h3 class="text-base font-semibold">Items</h3>
+              <p class="text-xs mt-2 text-indigo-400 text-center">Controll your projects from here, and keep schedules</p>
+            </div>
+            <div class="p-4 bg-purple-100 rounded shadow-lg flex flex-col items-center text-purple-600">
+              <ion-icon name="finger-print-outline" class="text-4xl md hydrated" role="img" aria-label="finger print outline"></ion-icon>
+              <h3 class="text-base font-semibold">Identify</h3>
+              <p class="text-xs mt-2 text-purple-400 text-center">Controll your projects from here, and keep schedules</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white md:w-1/4 rounded shadow w-full md:ml-2 md:mt-0 mt-2 p-4">
+          <div class="bg-white border border-gray-200 rounded w-full h-full p-4">
+            <div class="" x-data="{active : 0}">
+              <div class="overflow-hidden flex bg-gray-200 rounded text-gray-400">
+                <button class="px-4 py-2 w-full text-sm font-semibold bg-blue-900 text-white" x-on:click.prevent="active = 0" x-bind:class="{'bg-blue-900 text-white': active === 0}">tab 1</button>
+                <button class="px-4 py-2 w-full text-sm font-semibold" x-on:click.prevent="active = 1" x-bind:class="{'bg-blue-900 text-white': active === 1}">tab 2</button>
+                <button class="px-4 py-2 w-full text-sm font-semibold" x-on:click.prevent="active = 2" x-bind:class="{'bg-blue-900 text-white': active === 2}">tab 3</button>
+              </div>
+              <div class="bg-gray-200 bg-opacity-10 mt-2">
+                <div x-show="active === 0" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100">
+                  <h2 class="text-sm text-gray-700">Panel 1 Using x-transition</h2>
+                  <p class="text-xs text-gray-500">Panel 1 content</p>
+                </div>
+                <div x-show="active === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
+                  <h2 class="text-sm text-gray-700">Panel 2 Using x-transition</h2>
+                  <p class="text-xs text-gray-500">Panel 2 content</p>
+                </div>
+                <div x-show="active === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
+                  <h2 class="text-sm text-gray-700">Panel 3 Using x-transition</h2>
+                  <p class="text-xs text-gray-500">Panel 3 content</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between md:flex-row flex-col w-full p-2">
+        <div class="bg-indigo-600 rounded-xl shadow md:w-1/4 w-full p-4">
+          <h5 class="text-2xl font-light text-gray-200 mb-2">Field of study</h5>
+          <canvas class="chart" style="display: block; box-sizing: border-box; height: 516px; width: 516px;" width="516" height="516"></canvas>
+        </div>
+        <div class="bg-gray-100 rounded-xl shadow md:w-3/4 md:mt-0 mt-2 rounded h-96 shadow w-full md:ml-2 p-4 overflow-y-scroll">
+          <div class="flex items-center mx-4 justify-between">
+            <div class="relative md:w-9/12 md:mr-8 mr-0 w-full flex flex-wrap items-stretch">
+              <input type="text" class="relative py-3 px-2 pr-10 w-full outline-none shadow rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="placeholder">
+              <button class="absolute right-0 z-10 w-10 h-full py-1 pr-2 leading-snug bg-transparent text-xl rounded-full font-bold text-gray-600 text-center flex items-center justify-center">
+                <ion-icon name="search-outline" role="img" class="md hydrated" aria-label="search outline"></ion-icon>
+              </button>
+            </div>
+            <select class="bg-white p-2 md:w-2/5 w-full shadow rounded-lg p-3 md:mr-8 mr-0 text-sm text-gray-500 outline-none focus:outline-none">
+              <option value="0" selected="">Select Option</option>
+              <option value="1">Acuntancy</option>
+              <option value="2">Destintry</option>
+              <option value="3">Law</option>
+              <option value="4">Phisicology</option>
+              <option value="5">PE</option>
+            </select>
+            <div class="relative bg-white p-2 md:w-auto shadow w-full p-3 rounded-lg flex items-center text-pink-600 text-xl" x-data="{openFilter : false}">
+              <ion-icon class="font-black cursor-pointer hover:text-indigo-300 md hydrated" name="ellipsis-vertical-circle-outline" @click="openFilter =! openFilter" role="img" aria-label="ellipsis vertical circle outline"></ion-icon>
+              <div class="absolute shadow-md rounded-lg top-14 right-0 z-50 p-4 w-64 bg-white text-gray-500 shadow-lg text-sm" x-show="openFilter" @click.outside="openFilter = false" style="display: none;">
+                <h6 class="text-sm font-semibold mb-2">Filter Custom</h6>
+                <select name="" id="" class="border border-gray-300 p-1 w-full bg-gray-100 rounded">
+                  <option value="0">Sort By</option>
+                  <option value="asc">ASC</option>
+                  <option value="desc">DESC</option>
+                </select>
+                <h6 class="text-sm font-gray-300 mt-2">Price Range</h6>
+                <input class="rounded-lg appearance-none bg-blue-500 h-2 w-full mt-2" type="range" min="1" max="100" step="1" value="15">
+                <div class="flex mt-4 justify-end">
+                  <button class="bg-white shadow py-1 px-2 rounded text-gray-500 font-normal mr-2">Clear</button>
+                  <button class="bg-indigo-600 py-1 px-2 rounded text-white font-normal">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shadow overflow-hidden border-b border-gray-100 sm:rounded-lg mt-4">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Title
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+  
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Jane Cooper
+                        </div>
+                        <div class="text-sm text-gray-500">
+                          jane.cooper@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                    <div class="text-sm text-gray-500">Optimization</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Admin
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  </td>
+                </tr>
+  
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+      <div class="flex justify-between md:flex-row flex-col w-full p-2" x-data="{'layout': 'list'}">
+        <div class="bg-white rounded shadow mb-8 w-full p-4 max-w-4xl mx-auto">
+          <nav class="p-4 bg-indigo-700 text-white font-semibold text-xl  flex justify-between items-center rounded">
+            <h3 class="text-base">Layout</h3>
+            <div class="flex p-2">
+              <button class="mx-1 px-4 py-1 rounded-lg flex items-center hover:bg-indigo-900" x-on:click="layout = 'grid'" x-bind:class="{'bg-indigo-800': layout === 'grid'}"><ion-icon name="grid-outline" role="img" class="md hydrated" aria-label="grid outline"></ion-icon></button>
+              <button class="mx-1 px-4 py-1 rounded-lg flex items-center hover:bg-indigo-900 bg-indigo-800" x-on:click="layout = 'list'" x-bind:class="{'bg-indigo-800': layout === 'list'}"><ion-icon name="list-outline" role="img" class="md hydrated" aria-label="list outline"></ion-icon></button>
+            </div>
+          </nav>
+          
+          <section class="flex flex-wrap pb-4" x-bind:class="{'pb-4': layout === 'list', 'p-4': layout === 'grid'}">
+            <div class="w-full m-4 mb-0" x-bind:class="{'w-full m-4 mb-0': layout === 'list', 'w-2/4 p-2': layout === 'grid'}">
+              <article class="bg-gray-100 p-4 shadow">
+                <h3 class="mb-4 text-xl font semibold text-gray-600">
+                  <a href="#" class="hover:underline hover:text-gray-800">Cool Article Title one</a>
+                </h3>
+                <div class="flex flex-row">
+                  <img src="https://source.unsplash.com/200x200/?cat,kitten,kitty" class="w-48">
+                  <div class="flex-1 flex flex-col justify-between text-xl ml-4" x-show="layout === 'list'">
+                    <p>Article synopsis a few sentences long. I'm just typing stuff to fill in the space. Spoiler: it's about cats. Lots of cats. Cats everywhere. There might be kittens. You never know.</p>
+                    <p class="text-right">
+                      <a href="#" class="uppercase text-base text-gray-600 hover:text-black">Read more →</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="w-full m-4 mb-0" x-bind:class="{'w-full m-4 mb-0': layout === 'list', 'w-2/4 p-2': layout === 'grid'}">
+              <article class="bg-gray-100 p-4 shadow">
+                <h3 class="mb-4 text-xl font semibold text-gray-600">
+                  <a href="#" class="hover:underline hover:text-gray-800">Cool Article Title 1</a>
+                </h3>
+                <div class="flex flex-row">
+                  <img src="https://source.unsplash.com/200x200/?cat,kitten,kitty" class="w-48">
+                  <div class="flex-1 flex flex-col justify-between text-xl ml-4" x-show="layout === 'list'">
+                    <p>Article synopsis a few sentences long. I'm just typing stuff to fill in the space. Spoiler: it's about cats. Lots of cats. Cats everywhere. There might be kittens. You never know.</p>
+                    <p class="text-right">
+                      <a href="#" class="uppercase text-base text-gray-600 hover:text-black">Read more →</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="w-full m-4 mb-0" x-bind:class="{'w-full m-4 mb-0': layout === 'list', 'w-2/4 p-2': layout === 'grid'}">
+              <article class="bg-gray-100 p-4 shadow">
+                <h3 class="mb-4 text-xl font semibold text-gray-600">
+                  <a href="#" class="hover:underline hover:text-gray-800">Cool Article Title 1</a>
+                </h3>
+                <div class="flex flex-row">
+                  <img src="https://source.unsplash.com/200x200/?cat,kitten,kitty" class="w-48">
+                  <div class="flex-1 flex flex-col justify-between text-xl ml-4" x-show="layout === 'list'">
+                    <p>Article synopsis a few sentences long. I'm just typing stuff to fill in the space. Spoiler: it's about cats. Lots of cats. Cats everywhere. There might be kittens. You never know.</p>
+                    <p class="text-right">
+                      <a href="#" class="uppercase text-base text-gray-600 hover:text-black">Read more →</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="w-full m-4 mb-0" x-bind:class="{'w-full m-4 mb-0': layout === 'list', 'w-2/4 p-2': layout === 'grid'}">
+              <article class="bg-gray-100 p-4 shadow">
+                <h3 class="mb-4 text-xl font semibold text-gray-600">
+                  <a href="#" class="hover:underline hover:text-gray-800">Cool Article Title 1</a>
+                </h3>
+                <div class="flex flex-row">
+                  <img src="https://source.unsplash.com/200x200/?cat,kitten,kitty" class="w-48">
+                  <div class="flex-1 flex flex-col justify-between text-xl ml-4" x-show="layout === 'list'">
+                    <p>Article synopsis a few sentences long. I'm just typing stuff to fill in the space. Spoiler: it's about cats. Lots of cats. Cats everywhere. There might be kittens. You never know.</p>
+                    <p class="text-right">
+                      <a href="#" class="uppercase text-base text-gray-600 hover:text-black">Read more →</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+          
+        </div>
+      </div>
+      <!--  end main content    -->
+  
+    </div>
+    <!--  end main -->
+  
+  </div>
+  
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.2.2/cdn.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"></script>
+        <script id="rendered-js">
+  let pieCanvas = document.querySelector(".chart");
+  const DATA_COUNT = 5;
+  const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+  
+  const data = {
+    labels: ['Accountancy', 'Dentistry', 'Law', 'Phiscology', 'PE'],
+    datasets: [
+    {
+      label: 'Dataset 1',
+      data: [18, 13, 19, 28, 24],
+      backgroundColor: [
+      "#065F46",
+      "#F59E0B",
+      "#FECACA",
+      "#C4B5FD",
+      "#FCD34D"],
+  
+      borderColor: "#FFF",
+      borderWidth: 1 }] };
+  
+  
+  
+  
+  const pie = new Chart(pieCanvas, {
+    type: 'doughnut',
+    data: data,
+    options: {
+      responsive: true,
+      //rotation: 180, //untuk rotasi posisi
+      //circumference: 180, //untuk memotong bulat menjadi 2
+      //cutout: 80, //untuk lebar lubang tengah
+      color: "#fff",
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          align: "start",
+          labels: {
+            boxWidth: 6,
+            boxHeight: 6,
+            font: {
+              size: 12 } } },
+  
+  
+  
+        title: {
+          display: false,
+          text: 'Chart.js Doughnut Chart' } } } });
+  //# sourceURL=pen.js
+      </script>
+  
+    
+  
+  
+  
+  
+   
+  </body></html>

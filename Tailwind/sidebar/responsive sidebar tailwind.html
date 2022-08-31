@@ -1,0 +1,96 @@
+<html lang="en"><head>
+
+    <meta charset="UTF-8">
+    
+  <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+  
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  
+  <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+  
+  
+    <title>CodePen - responsive sidebar  tailwind</title>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css">
+    
+  
+    
+    
+    
+    <script>
+    if (document.location.search.match(/type=embed/gi)) {
+      window.parent.postMessage("resize", "*");
+    }
+  </script>
+  
+  
+  <body translate="no">
+    <div class="relative min-h-screen md:flex">
+  
+    <!-- mobile menu bar -->
+    <div class="bg-gray-800 text-gray-100 flex justify-between items-center md:hidden">
+      <!-- -- logo ---->
+  
+        <a href="#" class="block p-4 text-white font-bold"> ALEF </a>
+        <!-- -- mobile menu button ---->
+          <button class="mobile-menu-button p-4 focus:outline-none focus:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+    </div>
+  
+    <!-- sidebar -->
+  
+    <div class="sidebar bg-gray-100 text-gray-900 w-64 px-2 space-y-6 py-4 absolute md:relative md:translate-x-0 inset-y-0 left-0 transform transition duration-200 ease-in-out">
+  
+      <!-- logo -->
+      <a href="#" class="text-gray-900 flex items-center px-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        <span class="text-2xl font-bold px-2">ALEF</span>
+      </a>
+      <!-- nav -->
+      <nav>
+        <a href="" class="block py-2 px-4 rounded hover:bg-gray-200 transition duration-200">About</a>
+        <a href="" class="block py-2 px-4 rounded hover:bg-gray-200 transition duration-200">Bags</a>
+        <a href="" class="block py-2 px-4 rounded hover:bg-gray-200 transition duration-200">Accessories</a>
+        <a href="" class="block py-2 px-4 rounded hover:bg-gray-200 transition duration-200">Materials</a>
+        <a href="" class="block py-2 px-4 rounded hover:bg-gray-200 transition duration-200">Contact</a>
+  
+      </nav>
+  
+    </div>
+  
+    <!-- content -->
+    <div class="flex-1 p-10 text-2xl font-bold bg-yellow-300">
+      content goes here
+    </div>
+  
+  </div>
+      <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+  
+    
+        <script id="rendered-js">
+  // grab everything we need
+  const btn = document.querySelector(".mobile-menu-button");
+  const sidebar = document.querySelector(".sidebar");
+  
+  // add our event listener for the click
+  btn.addEventListener("click", () => {
+    sidebar.classList.toggle("-translate-x-full");
+  });
+  //# sourceURL=pen.js
+      </script>
+  
+    
+  
+    <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
+  
+  
+  
+   
+  </body></html>
