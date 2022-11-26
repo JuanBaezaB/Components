@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form-group">
+        <label for="">Dirección</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            name="direccion"
+            id="searchmap"
+            placeholder="Escriba la dirección aquí"
+            required>
+    </div>
+    <strong>O puede seleccionar la dirección moviendo el marcador del mapa</strong>
+    <div id="map-canvas" style=" width:100%; height:250px;"></div>
+    <div class="form-group">
+        <input type="text" placeholder="lat" id="lat" name="lat" >
+        <input type="text" placeholder="lng" id="lng" name="lng">
+    </div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJo0d84q3_W-zY6-m9_QJGa1UTY_vn2es&libraries=places"></script>
+    <script>
+        /////////////////// VARIABLES /////////////////////
+        var globalMap;
+        var sectoresGeoJSON = [];
+
+        //Variable Filtros pacientes activos//
+        var markersPacientes = [];
+
+        //Datos del cesfam//
+        var cesfamData;
+        var coordenadasCesfam;
+
+        //SearchBox para las direcciones
+        var searchBox;
+        let geoCoder;
+
+        /////////////////// CESFAM DATA /////////////////////
+        function displayCesfamLocations(nombre, lat, lng) {
+            console.log('CESFAM-MARKER->', nombre, lat, lng);
+            let content = '<div>' +
+                '<h5 class="mb-2">' + nombre + '</h5>' +
+                '</div>';
+            
+            let infoWindow = new google.maps.InfoWindow({
+                content: content
+            });
+
+            let pinIcon = new google.maps.MarkerImage(
+                "{{ asset('/img/marcadores/cesfam_rework.png') }}",
+                null, /* size is determined at runtime */
+                null, /* origin is 0,0 */
+                null, /* anchor is bottom center of the scaled image */
+                new google.maps.Size(45, 45)
+            );
+
+            let marker = new google.maps.Marker({
+                map: globalMap,
+                position: { 'lat': parseFloat(lat), 'lng': parseFloat(lng) },
+                icon: pinIcon,
+                title: nombre,
+                animation: google.maps.Animation.DROP,
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                if(activeInfoWindow){ 
+                    activeInfoWindow.close();
+                }
+                
+                infoWindow.open(map, marker);
+                activeInfoWindow = infoWindow;
+            });
+
+            marker.setMap(globalMap);
+
+        }
+
+      
+
+        /////////////////// GOOGLE MAP /////////////////////
+
+        function loadGoogleMap(coordenadas){
+            globalMap = new google.maps.Map(document.getElementById('map-canvas'),{
+                zoom: 15,
+                center: coordenadas,
+                streetViewControl: false
+            });
+        }
+
+        /////////////////// SECTORES /////////////////////
+
+
+        function filterSectores(sector, isChecked){
+            console.log('FILTER SECTORES ->', sector, isChecked);
+            if(!isChecked){
+                sectoresGeoJSON.forEach(item => {
+                    if(item.sector === sector) item.data.setMap(null);
+                });
+            }
+            else{
+                sectoresGeoJSON.forEach(item => {
+                    if(item.sector === sector) item.data.setMap(globalMap);
+                });
+            }
+        }
+
+        /////////////////////////////////////////////////
+
+
+        //CALLBACK INITMAP
+        async function initMap(){
+            console.log('INITMAP-ELSE->');
+            //Preload searchbox para direcciones
+            searchBox = new google.maps.places.SearchBox(document.getElementById('searchmap'));
+            geoCoder = new google.maps.Geocoder();
+
+            //CARGAMOS EL VALOR DEL ID DEL CESFAM
+            let idCesfam = $('#id_cesfam').val(); // 1:Pinares, 2:Leonera, 3:Chiguay, 4:etc...
+            cesfamData = await loadCesfamData(idCesfam);
+            cesfamData.nombre = 'Cesfam';
+            coordenadasCesfam = (idCesfam === 'todos') ? defaultCoords : { lat: parseFloat(cesfamData.lat), lng: parseFloat(cesfamData.lng) }; 
+            //SE CARGA EL GOOGLE MAP CON PRECONFIGURACIONES
+            loadGoogleMap(coordenadasCesfam);
+            displayCesfamLocations(cesfamData.nombre, cesfamData.lat, cesfamData.lng);
+
+            //PRECARGAMOS LOS GEOJSON Y CARGAMOS TODOS LOS SECTORES
+            
+       
+
+            const marker = new google.maps.Marker({
+                position: coordenadasCesfam,
+                map: globalMap,
+                draggable: true
+            });
+
+            function geocodePosition(position) {
+                geoCoder.geocode({
+                    latLng: position
+                }, function(responses) {
+                    console.log('GEOCODER->', responses);
+                    if (responses && responses.length > 0) {
+                        marker.formatted_address = responses[0].formatted_address;
+                        //asignamos la direccion formateada al value del input
+                        $('#searchmap').val(marker.formatted_address);
+                    } else {
+                        marker.formatted_address = 'ERROR: no se pudo obtener la dirección formateada.';
+                        $('#searchmap').val(marker.formatted_address);
+                    }
+                });
+            }
+
+            google.maps.event.addListener(searchBox, 'places_changed', function() {
+                let places = searchBox.getPlaces();
+                let bounds = new google.maps.LatLngBounds();
+                let i, place;
+
+                for (i = 0; place = places[i]; i++) {
+                    bounds.extend(place.geometry.location);
+                    marker.setPosition(place.geometry.location);
+                }
+                console.log('PlaceChanged->');
+                let lat = marker.getPosition().lat();
+                let lng = marker.getPosition().lng();
+                //actualizamos los input
+                $('#lat').val(lat);
+                $('#lng').val(lng);
+
+                globalMap.fitBounds(bounds);
+                globalMap.setZoom(15);
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function() {
+                let lat = marker.getPosition().lat();
+                let lng = marker.getPosition().lng();
+                //actualizamos los input
+                $('#lat').val(lat);
+                $('#lng').val(lng);
+                // updateMarkerStatus('Drag ended');
+                console.log('Dragged->');
+                geocodePosition(marker.getPosition());
+            });
+
+        }
+    </script>
+</body>
+
+</html>
