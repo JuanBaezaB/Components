@@ -1,0 +1,352 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>CodePen - Line chart (Chart.js 3)</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.6/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.15.0/inter.css">
+
+    <style>
+        .font-inter {
+            font-family: 'Inter';
+        }
+
+        .bg-gray-900 {
+            background-color: #151719;
+        }
+
+        .bg-gray-800 {
+            background-color: #25282C;
+        }
+
+        .text-gray-100 {
+            color: #EBF1F5;
+        }
+    </style>
+
+
+
+<body translate="no">
+    <div class="font-inter antialiased h-screen bg-gray-900 text-white">
+
+        <div class="container mx-auto max-w-5xl px-4 sm:px-8">
+
+            <div class="pt-12">
+                <div class="bg-gray-800 text-gray-100 text-sm p-4" style="max-width: 568px;">
+                    <div class="font-medium">Cumulative capital investment 2015-2019 in Europe in M USD ($)</div>
+                    <div>
+                        <canvas id="myChart" width="275" height="224"
+                            style="display: block; box-sizing: border-box; width: 344px; height: 280px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script
+        src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0-alpha/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.2.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script id="rendered-js">
+        const palette = {
+            gray: {
+                100: '#EBF1F5',
+                200: '#D9E3EA',
+                300: '#C5D2DC',
+                400: '#9BA9B4',
+                500: '#707D86',
+                600: '#55595F',
+                700: '#33363A',
+                800: '#25282C',
+                900: '#151719'
+            },
+
+            red: {
+                100: '#fff5f5',
+                200: '#fed7d7',
+                300: '#feb2b2',
+                400: '#fc8181',
+                500: '#f56565',
+                600: '#e53e3e',
+                700: '#c53030',
+                800: '#9b2c2c',
+                900: '#742a2a'
+            },
+
+            orange: {
+                100: '#fffaf0',
+                200: '#feebc8',
+                300: '#fbd38d',
+                400: '#f6ad55',
+                500: '#ed8936',
+                600: '#dd6b20',
+                700: '#c05621',
+                800: '#9c4221',
+                900: '#7b341e'
+            },
+
+            yellow: {
+                100: '#fffff0',
+                200: '#fefcbf',
+                300: '#faf089',
+                400: '#f6e05e',
+                500: '#ecc94b',
+                600: '#d69e2e',
+                700: '#b7791f',
+                800: '#975a16',
+                900: '#744210'
+            },
+
+            green: {
+                100: '#f0fff4',
+                200: '#c6f6d5',
+                300: '#9ae6b4',
+                400: '#68d391',
+                500: '#48bb78',
+                600: '#38a169',
+                700: '#2f855a',
+                800: '#276749',
+                900: '#22543d'
+            },
+
+            teal: {
+                100: '#e6fffa',
+                200: '#b2f5ea',
+                300: '#81e6d9',
+                400: '#4fd1c5',
+                500: '#38b2ac',
+                600: '#319795',
+                700: '#2c7a7b',
+                800: '#285e61',
+                900: '#234e52'
+            },
+
+            blue: {
+                100: '#ebf8ff',
+                200: '#bee3f8',
+                300: '#90cdf4',
+                400: '#63b3ed',
+                500: '#4299e1',
+                600: '#3182ce',
+                700: '#2b6cb0',
+                800: '#2c5282',
+                900: '#2a4365'
+            },
+
+            indigo: {
+                100: '#ebf4ff',
+                200: '#c3dafe',
+                300: '#a3bffa',
+                400: '#7f9cf5',
+                500: '#667eea',
+                600: '#5a67d8',
+                700: '#4c51bf',
+                800: '#434190',
+                900: '#3c366b'
+            },
+
+            purple: {
+                100: '#F4F4FF',
+                200: '#E2E1FF',
+                300: '#CBCCFF',
+                400: '#ABABFF',
+                500: '#8D8DFF',
+                600: '#5D5DFF',
+                700: '#4B4ACF',
+                800: '#38379C',
+                900: '#262668'
+            },
+
+            pink: {
+                100: '#fff5f7',
+                200: '#fed7e2',
+                300: '#fbb6ce',
+                400: '#f687b3',
+                500: '#ed64a6',
+                600: '#d53f8c',
+                700: '#b83280',
+                800: '#97266d',
+                900: '#702459'
+            }
+        };
+
+
+
+
+        // Gradient generator
+        const createGradient = (el, props) => {
+            const {
+                x0 = 0,
+                y0 = el.offsetHeight,
+                x1 = 0,
+                y1 = 0,
+                colors = ['blue', 'teal'] } =
+                props || {};
+
+            const gradient = el.getContext('2d').createLinearGradient(x0, y0, x1, y1);
+            gradient.addColorStop(0, colors[0]);
+            gradient.addColorStop(1, colors[1]);
+            return gradient;
+        };
+
+        // Function that converts HEX colors to RGB with alpha
+        const hexToRGBA = (h, a = 1) => {
+            let r = 0, g = 0, b = 0;
+
+            if (h.length == 4) {
+                r = '0x' + h[1] + h[1];
+                g = '0x' + h[2] + h[2];
+                b = '0x' + h[3] + h[3];
+            } else {
+                r = '0x' + h[1] + h[2];
+                g = '0x' + h[3] + h[4];
+                b = '0x' + h[5] + h[6];
+            }
+
+            return 'rgba(' + +r + ',' + +g + ',' + +b + ',' + a + ')';
+        };
+
+        // Function that creates the chart
+        const createChart = (selector, data) => {
+
+            // Stop if there isn't any selector
+            if (!document.querySelector(selector)) return;
+
+            // Map data
+            const xValues = data.map(d => d.date);
+            const yValues = data.map(d => d.value);
+            console.log(data.map(d => d.date));
+
+            // Select element
+            const c = document.querySelector(selector);
+            // Create context
+            const ctx = c.getContext('2d');
+
+            // Generate a diagonal, pink gradient
+            const gradientStroke = createGradient(c, {
+                x1: c.offsetHeight,
+                colors: [palette.pink[600], palette.pink[400]]
+            });
+
+
+            // Define global styling
+            Chart.defaults.defaultFontColor = palette.gray['500'];
+            Chart.defaults.defaultFontFamily = '"Inter", sans-serif';
+            Chart.defaults.defaultFontSize = 12;
+            Chart.defaults.defaultFontStyle = '500';
+            Chart.defaults.tooltips.enabled = false;
+
+            // Initialize the chart
+            // eslint-disable-next-line no-unused-vars
+            const chart = new Chart(ctx, {
+
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        label: 'Value',
+                        borderColor: gradientStroke,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointHitRadius: 16,
+                        pointRadius: 4,
+                        pointHoverRadius: 4,
+                        pointBackgroundColor: 'transparent',
+                        pointHoverBackgroundColor: palette.pink[300],
+                        pointBorderWidth: 0,
+                        pointHoverBorderWidth: 16,
+                        pointBorderColor: 'transparent',
+                        pointHoverBorderColor: hexToRGBA(palette.pink[600], .48),
+                        data: yValues
+                    }]
+                },
+
+
+
+                // Configuration options
+                options: {
+                    maintainAspectRatio: false,
+                    // Legend
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 6
+                        }
+                    },
+
+
+                    // Axes
+                    scales: {
+                        // x Axes
+                        x: {
+                            type: 'time',
+                            time: {
+                                parser: 'YYYY-MM-DD', // Should match the date format in your data
+                                tooltipFormat: 'MMM D, Y', // Refer to https://momentjs.com/docs/#/displaying/format/
+                                unit: 'day',
+                                stepSize: 2,
+                                displayFormats: {
+                                    'day': 'MMM D' // Refer to https://momentjs.com/docs/#/displaying/format/
+                                }
+                            },
+
+                            gridLines: {
+                                display: false
+                            },
+
+                            ticks: {
+                                padding: 20
+                            }
+                        },
+
+
+                        // y Axes
+                        y: {
+                            gridLines: {
+                                color: palette.gray['700'],
+                                borderDash: [4, 4],
+                                drawBorder: false
+                            },
+
+                            ticks: {
+                                maxTicksLimit: 5
+                            }
+                        }
+                    }
+                }
+            });
+
+
+
+
+
+        };
+
+        // Define our selector
+        const selector = '#myChart';
+        // Request data using D3 and create chart
+        d3.csv('https://raw.githubusercontent.com/cruip/cruip-charts/main/01_timescale.csv').
+            then(data => {
+                createChart(selector, data);
+            });
+    </script>
+
+
+
+
+
+
+
+</body>
+
+</html>

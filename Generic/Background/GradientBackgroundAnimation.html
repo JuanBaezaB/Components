@@ -1,0 +1,131 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>CodePen - Pure CSS Gradient Background Animation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <style>
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            -webkit-animation: gradient 15s ease infinite;
+            animation: gradient 15s ease infinite;
+            height: 100vh;
+        }
+
+        @-webkit-keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+
+
+
+    <style>
+        :root {
+           
+            --font-family: "Poppins", system-ui;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+
+        body {
+           
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            font-family: var(--font-family);
+        }
+
+       
+
+        .overlay {
+            width: 100%;
+            max-width: 1140px;
+            max-height: 640px;
+            padding: 8rem 6rem;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.375);
+            box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.1);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <div class="overlay">
+        <!-- Overlay inner wrapper -->
+        <div class="overlay__inner">
+            <!-- Title -->
+            <h1 class="overlay__title">
+                Hey, would you like to learn how to create a
+                <span class="text-gradient">generative</span> UI just like this?
+            </h1>
+            <!-- Description -->
+            <p class="overlay__description">
+                In this tutorial we will be creating a generative “orb” animation
+                using pixi.js, picking some lovely random colors and pulling it all
+                together in a nice frosty UI.
+                <strong>We're gonna talk accessibility, too.</strong>
+            </p>
+            <!-- Buttons -->
+            <div class="overlay__btns">
+
+                <button class="overlay__btn overlay__btn--transparent">
+                    <a href="https://georgefrancis.dev/writing/create-a-generative-landing-page-and-webgl-powered-background/"
+                        target="_blank">
+
+                        View Tutorial
+                    </a>
+                </button>
+
+                <button class="overlay__btn overlay__btn--colors">
+                    <span>Randomise Colors</span>
+                    <span class="overlay__btn-emoji">🎨</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
